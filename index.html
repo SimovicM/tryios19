@@ -74,12 +74,17 @@
         .app-icon-img {
             width: 60px;
             height: 60px;
-            border-radius: 16px;
+            border-radius: 50%;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
 
         .app-icon-img img {
@@ -187,6 +192,54 @@
         .app-dot.active {
             background: white;
         }
+
+        /* App-specific gradients based on iOS 19 leaks */
+        .app-facetime { background: linear-gradient(145deg, #30D158, #34C759); }
+        .app-calendar { background: linear-gradient(145deg, #FF3B30, #FF453A); }
+        .app-photos { background: linear-gradient(145deg, #FF9F0A, #FFB340); }
+        .app-camera { background: linear-gradient(145deg, #1C1C1E, #2C2C2E); }
+        .app-mail { background: linear-gradient(145deg, #0A84FF, #2094FF); }
+        .app-notes { background: linear-gradient(145deg, #FFD60A, #FFE620); }
+        .app-reminders { background: linear-gradient(145deg, #FF453A, #FF6961); }
+        .app-clock { background: linear-gradient(145deg, #000000, #1C1C1E); }
+        .app-maps { background: linear-gradient(145deg, #5E5CE6, #6E6EFF); }
+        .app-weather { background: linear-gradient(145deg, #64D2FF, #74E2FF); }
+        .app-home { background: linear-gradient(145deg, #FF9F0A, #FFB340); }
+        .app-settings { background: linear-gradient(145deg, #8E8E93, #98989D); }
+        .app-appstore { background: linear-gradient(145deg, #0A84FF, #2094FF); }
+        .app-messages { background: linear-gradient(145deg, #30D158, #34C759); }
+        .app-phone { background: linear-gradient(145deg, #30D158, #34C759); }
+        .app-safari { background: linear-gradient(145deg, #0A84FF, #2094FF); }
+        .app-music { background: linear-gradient(145deg, #FF2D55, #FF375F); }
+
+        /* Add glass effect to icons */
+        .app-icon-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .app-icon-img:active::before {
+            opacity: 1;
+        }
+
+        /* Enhanced icon animations */
+        @keyframes iconPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .app-icon {
+            animation: iconPop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation-delay: calc(var(--index) * 0.05s);
+        }
     </style>
 </head>
 <body>
@@ -223,52 +276,62 @@
     </div>
 
     <script>
-        // App data
+        // Define app data with proper icons and gradients
         const apps = [
-            { name: 'FaceTime', icon: 'facetime.png', color: '#4CD964' },
-            { name: 'Calendar', icon: 'calendar.png', color: '#FF3B30' },
-            { name: 'Photos', icon: 'photos.png', color: '#FF9500' },
-            { name: 'Camera', icon: 'camera.png', color: '#333333' },
-            { name: 'Mail', icon: 'mail.png', color: '#1D9BF0' },
-            { name: 'Notes', icon: 'notes.png', color: '#FFCC00' },
-            { name: 'Reminders', icon: 'reminders.png', color: '#FF3B30' },
-            { name: 'Clock', icon: 'clock.png', color: '#000000' },
-            { name: 'Maps', icon: 'maps.png', color: '#4CD964' },
-            { name: 'Weather', icon: 'weather.png', color: '#1D9BF0' },
-            { name: 'Home', icon: 'home.png', color: '#FF9500' },
-            { name: 'Settings', icon: 'settings.png', color: '#8E8E93' }
+            { name: 'FaceTime', class: 'app-facetime', icon: '<svg>...</svg>' },
+            { name: 'Calendar', class: 'app-calendar', icon: '<svg>...</svg>' },
+            { name: 'Photos', class: 'app-photos', icon: '<svg>...</svg>' },
+            { name: 'Camera', class: 'app-camera', icon: '<svg>...</svg>' },
+            { name: 'Mail', class: 'app-mail', icon: '<svg>...</svg>' },
+            { name: 'Notes', class: 'app-notes', icon: '<svg>...</svg>' },
+            { name: 'Reminders', class: 'app-reminders', icon: '<svg>...</svg>' },
+            { name: 'Clock', class: 'app-clock', icon: '<svg>...</svg>' },
+            { name: 'Maps', class: 'app-maps', icon: '<svg>...</svg>' },
+            { name: 'Weather', class: 'app-weather', icon: '<svg>...</svg>' },
+            { name: 'Home', class: 'app-home', icon: '<svg>...</svg>' },
+            { name: 'Settings', class: 'app-settings', icon: '<svg>...</svg>' }
         ];
 
         const dockApps = [
-            { name: 'Phone', icon: 'phone.png', color: '#4CD964' },
-            { name: 'Safari', icon: 'safari.png', color: '#1D9BF0' },
-            { name: 'Messages', icon: 'messages.png', color: '#4CD964' },
-            { name: 'Music', icon: 'music.png', color: '#FF3B30' }
+            { name: 'Phone', class: 'app-phone', icon: '<svg>...</svg>' },
+            { name: 'Safari', class: 'app-safari', icon: '<svg>...</svg>' },
+            { name: 'Messages', class: 'app-messages', icon: '<svg>...</svg>' },
+            { name: 'Music', class: 'app-music', icon: '<svg>...</svg>' }
         ];
 
-        // Generate app icons
+        // Generate app icons with staggered animation
         const appGrid = document.querySelector('.app-grid');
         apps.forEach((app, index) => {
-            const delay = index * 0.05;
-            appGrid.innerHTML += `
-                <div class="app-icon" style="animation-delay: ${delay}s">
-                    <div class="app-icon-img" style="background: ${app.color}">
-                        <span style="font-size: 24px">${app.name[0]}</span>
-                    </div>
-                    <div class="app-name">${app.name}</div>
+            const appIcon = document.createElement('div');
+            appIcon.className = 'app-icon';
+            appIcon.style.setProperty('--index', index);
+            appIcon.innerHTML = `
+                <div class="app-icon-img ${app.class}">
+                    ${app.icon}
                 </div>
+                <div class="app-name">${app.name}</div>
             `;
+            appGrid.appendChild(appIcon);
+            
+            // Add click handler for app launching
+            appIcon.addEventListener('click', () => launchApp(app.name));
         });
 
         // Generate dock icons
         const dock = document.querySelector('.dock');
         dockApps.forEach((app, index) => {
-            const delay = index * 0.05 + 0.3;
-            dock.innerHTML += `
-                <div class="dock-icon" style="animation-delay: ${delay}s; background: ${app.color}">
-                    <span style="font-size: 24px; color: white">${app.name[0]}</span>
+            const dockIcon = document.createElement('div');
+            dockIcon.className = 'dock-icon';
+            dockIcon.style.setProperty('--index', index + apps.length);
+            dockIcon.innerHTML = `
+                <div class="app-icon-img ${app.class}">
+                    ${app.icon}
                 </div>
             `;
+            dock.appendChild(dockIcon);
+            
+            // Add click handler for app launching
+            dockIcon.addEventListener('click', () => launchApp(app.name));
         });
 
         // Clock update
@@ -291,11 +354,12 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Add touch animations
+        // Enhanced touch feedback
         document.querySelectorAll('.app-icon, .dock-icon').forEach(icon => {
             icon.addEventListener('touchstart', function(e) {
                 e.preventDefault();
-                this.style.transform = 'scale(0.9)';
+                this.style.transform = 'scale(0.8)';
+                this.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
             });
 
             icon.addEventListener('touchend', function(e) {
