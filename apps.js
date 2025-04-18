@@ -18,6 +18,12 @@ function launchApp(appName) {
         case 'messages':
             app.src = 'apps/messages.html';
             break;
+        case 'photos':
+            app.src = 'apps/photos.html';
+            break;
+        case 'music':
+            app.src = 'apps/music.html';
+            break;
         // Add more apps here
     }
     
@@ -53,17 +59,21 @@ function launchApp(appName) {
     });
 }
 
-// Update app icon click handlers
-document.querySelectorAll('.app-icon').forEach(icon => {
-    icon.addEventListener('click', function() {
-        const appName = this.querySelector('.app-name').textContent;
-        launchApp(appName);
+// Add click handlers to app icons
+document.addEventListener('DOMContentLoaded', () => {
+    // Handle main grid app icons
+    document.querySelectorAll('.app-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const appName = this.querySelector('.app-name').textContent;
+            launchApp(appName);
+        });
     });
-});
 
-document.querySelectorAll('.dock-icon').forEach(icon => {
-    icon.addEventListener('click', function() {
-        const appName = this.getAttribute('data-app');
-        launchApp(appName);
+    // Handle dock app icons
+    document.querySelectorAll('.dock-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const appName = this.getAttribute('data-app');
+            launchApp(appName);
+        });
     });
 });
