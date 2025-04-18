@@ -1,4 +1,7 @@
+// App launching functionality
 function launchApp(appName) {
+    console.log("Launching app:", appName);
+    
     const app = document.createElement('iframe');
     app.style.position = 'fixed';
     app.style.top = '0';
@@ -7,8 +10,8 @@ function launchApp(appName) {
     app.style.height = '100%';
     app.style.border = 'none';
     app.style.zIndex = '2000';
+    app.style.transition = 'transform 0.3s ease';
     app.style.transform = 'translateY(100%)';
-    app.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     
     // Set the appropriate app URL
     switch(appName.toLowerCase()) {
@@ -19,44 +22,49 @@ function launchApp(appName) {
             app.src = 'apps/messages.html';
             break;
         case 'photos':
-            app.src = 'apps/photos.html';
-            break;
+            alert('Photos app would launch here');
+            return;
         case 'music':
-            app.src = 'apps/music.html';
-            break;
-        // Add more apps here
+            alert('Music app would launch here');
+            return;
+        default:
+            alert('App not implemented yet');
+            return;
     }
     
     document.body.appendChild(app);
     
+    // Force reflow
+    app.getBoundingClientRect();
+    
     // Trigger animation
-    requestAnimationFrame(() => {
+    setTimeout(function() {
         app.style.transform = 'translateY(0)';
-    });
-
-    // Add close gesture
-    let startY = 0;
-    let currentY = 0;
+    }, 10);
     
-    app.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
-    });
+    // Add close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.position = 'fixed';
+    closeButton.style.top = '30px';
+    closeButton.style.right = '20px';
+    closeButton.style.zIndex = '2001';
+    closeButton.style.padding = '8px 16px';
+    closeButton.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    closeButton.style.color = 'white';
+    closeButton.style.border = 'none';
+    closeButton.style.borderRadius = '20px';
+    closeButton.style.fontSize = '16px';
     
-    app.addEventListener('touchmove', (e) => {
-        currentY = e.touches[0].clientY - startY;
-        if (currentY > 0) { // Only allow downward swipe
-            app.style.transform = `translateY(${currentY}px)`;
-        }
-    });
+    closeButton.onclick = function() {
+        app.style.transform = 'translateY(100%)';
+        setTimeout(function() {
+            app.remove();
+            closeButton.remove();
+        }, 300);
+    };
     
-    app.addEventListener('touchend', () => {
-        if (currentY > 100) { // If swiped down enough, close the app
-            app.style.transform = 'translateY(100%)';
-            setTimeout(() => app.remove(), 300);
-        } else {
-            app.style.transform = 'translateY(0)';
-        }
-    });
+    document.body.appendChild(closeButton);
 }
 
 // Add click handlers to app icons

@@ -70,6 +70,16 @@
             gap: 8px;
             animation: fadeIn 0.3s ease;
             cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .app-icon:hover .app-icon-img {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .app-icon:active .app-icon-img {
+            transform: scale(0.95);
         }
 
         .app-icon-img {
@@ -84,7 +94,7 @@
             background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
@@ -124,6 +134,15 @@
             border-radius: 14px;
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            overflow: hidden;
+        }
+
+        .dock-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .dock-icon:active {
+            transform: scale(0.95);
         }
 
         .dock-icon img {
@@ -242,6 +261,25 @@
             animation: iconPop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             animation-delay: calc(var(--index) * 0.05s);
         }
+
+        .color-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .color-circle::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -267,25 +305,25 @@
     </div>
 
     <div class="app-grid">
-        <div class="app-icon">
+        <div class="app-icon" onclick="launchApp('camera')">
             <div class="app-icon-img app-camera">
                 <img src="assets/icons/camera.svg" alt="Camera">
             </div>
             <div class="app-name">Camera</div>
         </div>
-        <div class="app-icon">
+        <div class="app-icon" onclick="launchApp('messages')">
             <div class="app-icon-img app-messages">
                 <img src="assets/icons/messages.svg" alt="Messages">
             </div>
             <div class="app-name">Messages</div>
         </div>
-        <div class="app-icon">
+        <div class="app-icon" onclick="launchApp('photos')">
             <div class="app-icon-img app-photos">
                 <div class="color-circle"></div>
             </div>
             <div class="app-name">Photos</div>
         </div>
-        <div class="app-icon">
+        <div class="app-icon" onclick="launchApp('music')">
             <div class="app-icon-img app-music">
                 <div class="color-circle"></div>
             </div>
@@ -294,14 +332,31 @@
     </div>
 
     <div class="dock">
-        <div class="dock-icon" data-app="camera">
+        <div class="dock-icon" onclick="launchApp('camera')">
             <img src="assets/icons/camera.svg" alt="Camera">
         </div>
-        <div class="dock-icon" data-app="messages">
+        <div class="dock-icon" onclick="launchApp('messages')">
             <img src="assets/icons/messages.svg" alt="Messages">
         </div>
     </div>
 
     <script src="js/apps.js"></script>
+    <script>
+        // Ensure all app icons are clickable
+        console.log("Initializing app icons...");
+        document.querySelectorAll('.app-icon, .dock-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                console.log("Icon clicked", this);
+                // This is a backup in case the inline onclick doesn't work
+                if (this.classList.contains('app-icon')) {
+                    const appName = this.querySelector('.app-name').textContent;
+                    launchApp(appName);
+                } else if (this.hasAttribute('data-app')) {
+                    const appName = this.getAttribute('data-app');
+                    launchApp(appName);
+                }
+            });
+        });
+    </script>
 </body>
 </html> 
