@@ -69,6 +69,7 @@
             align-items: center;
             gap: 8px;
             animation: fadeIn 0.3s ease;
+            cursor: pointer;
         }
 
         .app-icon-img {
@@ -122,6 +123,7 @@
             height: 60px;
             border-radius: 14px;
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
         .dock-icon img {
@@ -240,57 +242,6 @@
             animation: iconPop 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             animation-delay: calc(var(--index) * 0.05s);
         }
-
-        /* Add new styles for multiple pages */
-        .app-pages {
-            position: relative;
-            width: 100%;
-            height: calc(100vh - 200px);
-            overflow: hidden;
-        }
-
-        .app-page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .app-page.active {
-            transform: translateX(0);
-        }
-
-        .app-page.next {
-            transform: translateX(100%);
-        }
-
-        .app-page.prev {
-            transform: translateX(-100%);
-        }
-
-        .page-indicator {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-        }
-
-        .page-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        .page-dot.active {
-            background: white;
-            transform: scale(1.2);
-        }
     </style>
 </head>
 <body>
@@ -315,76 +266,39 @@
         <span class="search-text">Search</span>
     </div>
 
-    <div class="app-pages">
-        <div class="app-page active">
-            <div class="app-grid">
-                <div class="app-icon">
-                    <div class="app-icon-img app-camera">
-                        <img src="assets/icons/camera.png" alt="Camera">
-                    </div>
-                    <div class="app-name">Camera</div>
-                </div>
-                <div class="app-icon">
-                    <div class="app-icon-img app-messages">
-                        <img src="assets/icons/messages.png" alt="Messages">
-                    </div>
-                    <div class="app-name">Messages</div>
-                </div>
-                <div class="app-icon">
-                    <div class="app-icon-img app-photos">
-                        <div class="color-circle"></div>
-                    </div>
-                    <div class="app-name">Photos</div>
-                </div>
-                <div class="app-icon">
-                    <div class="app-icon-img app-music">
-                        <div class="color-circle"></div>
-                    </div>
-                    <div class="app-name">Music</div>
-                </div>
+    <div class="app-grid">
+        <div class="app-icon">
+            <div class="app-icon-img app-camera">
+                <img src="assets/icons/camera.svg" alt="Camera">
             </div>
+            <div class="app-name">Camera</div>
         </div>
-        <div class="app-page">
-            <div class="app-grid">
-                <div class="app-icon">
-                    <div class="app-icon-img app-safari">
-                        <div class="color-circle"></div>
-                    </div>
-                    <div class="app-name">Safari</div>
-                </div>
-                <div class="app-icon">
-                    <div class="app-icon-img app-weather">
-                        <div class="color-circle"></div>
-                    </div>
-                    <div class="app-name">Weather</div>
-                </div>
-                <div class="app-icon">
-                    <div class="app-icon-img app-maps">
-                        <div class="color-circle"></div>
-                    </div>
-                    <div class="app-name">Maps</div>
-                </div>
-                <div class="app-icon">
-                    <div class="app-icon-img app-settings">
-                        <div class="color-circle"></div>
-                    </div>
-                    <div class="app-name">Settings</div>
-                </div>
+        <div class="app-icon">
+            <div class="app-icon-img app-messages">
+                <img src="assets/icons/messages.svg" alt="Messages">
             </div>
+            <div class="app-name">Messages</div>
         </div>
-    </div>
-
-    <div class="page-indicator">
-        <div class="page-dot active"></div>
-        <div class="page-dot"></div>
+        <div class="app-icon">
+            <div class="app-icon-img app-photos">
+                <div class="color-circle"></div>
+            </div>
+            <div class="app-name">Photos</div>
+        </div>
+        <div class="app-icon">
+            <div class="app-icon-img app-music">
+                <div class="color-circle"></div>
+            </div>
+            <div class="app-name">Music</div>
+        </div>
     </div>
 
     <div class="dock">
         <div class="dock-icon" data-app="camera">
-            <img src="assets/icons/camera.png" alt="Camera">
+            <img src="assets/icons/camera.svg" alt="Camera">
         </div>
         <div class="dock-icon" data-app="messages">
-            <img src="assets/icons/messages.png" alt="Messages">
+            <img src="assets/icons/messages.svg" alt="Messages">
         </div>
     </div>
 

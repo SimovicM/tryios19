@@ -1,55 +1,3 @@
-// Page swipe functionality
-let currentPage = 0;
-let startX = 0;
-let currentX = 0;
-const pages = document.querySelectorAll('.app-page');
-const dots = document.querySelectorAll('.page-dot');
-
-function updatePagePosition() {
-    pages.forEach((page, index) => {
-        page.classList.remove('active', 'next', 'prev');
-        if (index === currentPage) {
-            page.classList.add('active');
-        } else if (index > currentPage) {
-            page.classList.add('next');
-        } else {
-            page.classList.add('prev');
-        }
-    });
-
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentPage);
-    });
-}
-
-document.querySelector('.app-pages').addEventListener('touchstart', (e) => {
-    startX = e.touches[0].clientX;
-});
-
-document.querySelector('.app-pages').addEventListener('touchmove', (e) => {
-    currentX = e.touches[0].clientX - startX;
-    const activePage = pages[currentPage];
-    
-    if (currentX > 0 && currentPage > 0) {
-        activePage.style.transform = `translateX(${currentX}px)`;
-    } else if (currentX < 0 && currentPage < pages.length - 1) {
-        activePage.style.transform = `translateX(${currentX}px)`;
-    }
-});
-
-document.querySelector('.app-pages').addEventListener('touchend', () => {
-    const threshold = 100;
-    if (Math.abs(currentX) > threshold) {
-        if (currentX > 0 && currentPage > 0) {
-            currentPage--;
-        } else if (currentX < 0 && currentPage < pages.length - 1) {
-            currentPage++;
-        }
-    }
-    updatePagePosition();
-});
-
-// App launching functionality
 function launchApp(appName) {
     const app = document.createElement('iframe');
     app.style.position = 'fixed';
@@ -118,4 +66,4 @@ document.querySelectorAll('.dock-icon').forEach(icon => {
         const appName = this.getAttribute('data-app');
         launchApp(appName);
     });
-}); 
+});
