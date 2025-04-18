@@ -17,11 +17,16 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
+        :root {
+            --app-background: linear-gradient(145deg, #f0d6ff, #ffd6e9);
+        }
+
         body {
-            background: linear-gradient(145deg, #e4c5f9, #f9c5e1);
+            background: var(--app-background);
             color: #000;
             height: 100vh;
             overflow: hidden;
+            transition: background 0.3s ease;
         }
 
         .status-bar {
@@ -31,6 +36,12 @@
             justify-content: space-between;
             align-items: center;
             color: #000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: transparent;
         }
 
         .time {
@@ -44,21 +55,12 @@
         }
 
         .widget-area {
-            margin: 20px;
-            background: rgba(255, 255, 255, 0.8);
+            margin: 64px 20px 20px;
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 15px;
-        }
-
-        .date-widget {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .events {
-            margin-top: 10px;
-            color: #666;
+            animation: slideDown 0.5s ease;
         }
 
         .app-grid {
@@ -66,7 +68,7 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             padding: 20px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .app-icon {
@@ -74,20 +76,38 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            transition: transform 0.2s ease;
         }
 
         .app-icon-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            background: #fff;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;  /* Making icons circular */
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
         }
+
+        .app-icon-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Specific app styles */
+        .app-facetime { background: linear-gradient(145deg, #4CD964, #32B14A); }
+        .app-calendar { background: white; color: #FF3B30; }
+        .app-photos { background: linear-gradient(145deg, #FF3B30, #FF9500); }
+        .app-camera { background: #333; }
+        .app-mail { background: linear-gradient(145deg, #1D9BF0, #147DC1); }
+        .app-notes { background: #FFCC00; }
+        .app-clock { background: #000; color: white; }
 
         .app-name {
             font-size: 12px;
@@ -97,27 +117,93 @@
 
         .dock {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(20px);
+            border-radius: 35px;
+            padding: 15px;
+            display: flex;
+            gap: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .dock-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .camera-app {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .camera-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .camera-controls {
+            height: 120px;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .camera-modes {
+            position: absolute;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
             border-radius: 30px;
-            padding: 10px;
+            padding: 10px 20px;
             display: flex;
             gap: 20px;
         }
 
-        .dock-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(145deg, #32CD32, #228B22);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .camera-mode {
             color: white;
-            font-size: 24px;
+            font-size: 14px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .camera-mode.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .shutter-button {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 4px solid white;
+            background: transparent;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.9); }
+            to { transform: scale(1); }
         }
 
         .dynamic-island {
@@ -125,7 +211,7 @@
             top: 12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
+            width: 126px;
             height: 37px;
             background: #000;
             border-radius: 20px;
@@ -133,24 +219,14 @@
             align-items: center;
             justify-content: center;
             color: white;
-            transition: all 0.3s ease;
-            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
         }
 
-        .search-bar {
-            margin: 10px 20px;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 8px 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #666;
-        }
-
-        .search-bar span {
-            font-size: 14px;
+        .dynamic-island.expanded {
+            width: 350px;
+            height: 180px;
+            border-radius: 40px;
         }
     </style>
 </head>
@@ -218,6 +294,30 @@
         <div class="dock-icon">🎵</div>
     </div>
 
+    <div class="camera-app">
+        <div class="status-bar">
+            <div class="time" id="camera-clock">9:41</div>
+            <div class="status-icons">
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+        <div class="camera-viewport">
+            <video id="camera-feed" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+        </div>
+        <div class="camera-modes">
+            <div class="camera-mode active">PHOTO</div>
+            <div class="camera-mode">VIDEO</div>
+            <div class="camera-mode">PORTRAIT</div>
+            <div class="camera-mode">CINEMATIC</div>
+        </div>
+        <div class="camera-controls">
+            <button onclick="switchCamera()">🔄</button>
+            <button class="shutter-button" onclick="takePhoto()"></button>
+            <button onclick="toggleFlash()">⚡️</button>
+        </div>
+    </div>
+
     <script>
         function updateClock() {
             const now = new Date();
@@ -241,8 +341,22 @@
         // Dynamic Island interactions
         const dynamicIsland = document.querySelector('.dynamic-island');
         dynamicIsland.addEventListener('click', function() {
-            this.style.width = this.style.width === '200px' ? '120px' : '200px';
-            this.style.height = this.style.height === '160px' ? '37px' : '160px';
+            this.classList.toggle('expanded');
+            if (this.classList.contains('expanded')) {
+                this.innerHTML = `
+                    <div style="padding: 20px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 50%;"></div>
+                            <div>
+                                <div style="font-weight: 600;">Now Playing</div>
+                                <div style="font-size: 14px; opacity: 0.8;">iOS 19 Theme</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                this.innerHTML = '';
+            }
         });
 
         // App icon animations
@@ -254,6 +368,41 @@
             icon.addEventListener('touchend', function() {
                 this.style.transform = 'scale(1)';
             });
+        });
+
+        let currentCamera = 'environment';
+        let stream = null;
+
+        async function initCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: currentCamera }
+                });
+                document.getElementById('camera-feed').srcObject = stream;
+            } catch (err) {
+                console.error('Camera error:', err);
+            }
+        }
+
+        function switchCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+            currentCamera = currentCamera === 'environment' ? 'user' : 'environment';
+            initCamera();
+        }
+
+        function takePhoto() {
+            // Add photo capture animation
+            const button = document.querySelector('.shutter-button');
+            button.style.transform = 'scale(0.9)';
+            setTimeout(() => button.style.transform = 'scale(1)', 100);
+        }
+
+        // Open camera app when camera icon is clicked
+        document.querySelector('.app-icon.camera').addEventListener('click', function() {
+            document.querySelector('.camera-app').style.display = 'flex';
+            initCamera();
         });
     </script>
 </body>
