@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Try iOS 19</title>
+
+  <!-- iOS Home Screen Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Try iOS 19" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="homescreen">
+    <h1>Try iOS 19</h1>
+    <button onclick="goToSettings()">Open Settings</button>
+    <button onclick="goToMessages()">Open Messages</button>
+  </div>
+
+  <div id="settings" class="screen hidden">
+    <h2>Settings</h2>
+    <p>Welcome to the redesigned Settings panel!</p>
+    <button onclick="goHome()">Home</button>
+  </div>
+
+  <div id="messages" class="screen hidden">
+    <h2>Messages</h2>
+    <p>Smart reply suggestions will appear here (simulated).</p>
+    <button onclick="goHome()">Home</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
