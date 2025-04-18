@@ -249,9 +249,6 @@
             <span>
                 <img src="data:image/svg+xml,%3Csvg width='18' height='12' viewBox='0 0 18 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4.5C1 2.567 2.567 1 4.5 1H13.5C15.433 1 17 2.567 17 4.5V7.5C17 9.433 15.433 11 13.5 11H4.5C2.567 11 1 9.433 1 7.5V4.5Z' stroke='black' stroke-width='2'/%3E%3C/svg%3E" alt="Signal">
             </span>
-            <span>
-                <img src="data:image/svg+xml,%3Csvg width='24' height='12' viewBox='0 0 24 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='2' y='2' width='20' height='8' rx='2' stroke='black' stroke-width='2'/%3E%3Crect x='4' y='4' width='14' height='4' fill='black'/%3E%3C/svg%3E" alt="Battery">
-            </span>
         </div>
     </div>
 
@@ -268,105 +265,29 @@
     </div>
 
     <div class="app-grid">
-        <!-- App icons will be dynamically added via JavaScript -->
+        <div class="app-icon">
+            <div class="app-icon-img app-camera">
+                <img src="assets/icons/camera.png" alt="Camera">
+            </div>
+            <div class="app-name">Camera</div>
+        </div>
+        <div class="app-icon">
+            <div class="app-icon-img app-messages">
+                <img src="assets/icons/messages.png" alt="Messages">
+            </div>
+            <div class="app-name">Messages</div>
+        </div>
     </div>
 
     <div class="dock">
-        <!-- Dock icons will be dynamically added via JavaScript -->
+        <div class="dock-icon" data-app="camera">
+            <img src="assets/icons/camera.png" alt="Camera">
+        </div>
+        <div class="dock-icon" data-app="messages">
+            <img src="assets/icons/messages.png" alt="Messages">
+        </div>
     </div>
 
-    <script>
-        // Define app data with proper icons and gradients
-        const apps = [
-            { name: 'FaceTime', class: 'app-facetime', icon: '<svg>...</svg>' },
-            { name: 'Calendar', class: 'app-calendar', icon: '<svg>...</svg>' },
-            { name: 'Photos', class: 'app-photos', icon: '<svg>...</svg>' },
-            { name: 'Camera', class: 'app-camera', icon: '<svg>...</svg>' },
-            { name: 'Mail', class: 'app-mail', icon: '<svg>...</svg>' },
-            { name: 'Notes', class: 'app-notes', icon: '<svg>...</svg>' },
-            { name: 'Reminders', class: 'app-reminders', icon: '<svg>...</svg>' },
-            { name: 'Clock', class: 'app-clock', icon: '<svg>...</svg>' },
-            { name: 'Maps', class: 'app-maps', icon: '<svg>...</svg>' },
-            { name: 'Weather', class: 'app-weather', icon: '<svg>...</svg>' },
-            { name: 'Home', class: 'app-home', icon: '<svg>...</svg>' },
-            { name: 'Settings', class: 'app-settings', icon: '<svg>...</svg>' }
-        ];
-
-        const dockApps = [
-            { name: 'Phone', class: 'app-phone', icon: '<svg>...</svg>' },
-            { name: 'Safari', class: 'app-safari', icon: '<svg>...</svg>' },
-            { name: 'Messages', class: 'app-messages', icon: '<svg>...</svg>' },
-            { name: 'Music', class: 'app-music', icon: '<svg>...</svg>' }
-        ];
-
-        // Generate app icons with staggered animation
-        const appGrid = document.querySelector('.app-grid');
-        apps.forEach((app, index) => {
-            const appIcon = document.createElement('div');
-            appIcon.className = 'app-icon';
-            appIcon.style.setProperty('--index', index);
-            appIcon.innerHTML = `
-                <div class="app-icon-img ${app.class}">
-                    ${app.icon}
-                </div>
-                <div class="app-name">${app.name}</div>
-            `;
-            appGrid.appendChild(appIcon);
-            
-            // Add click handler for app launching
-            appIcon.addEventListener('click', () => launchApp(app.name));
-        });
-
-        // Generate dock icons
-        const dock = document.querySelector('.dock');
-        dockApps.forEach((app, index) => {
-            const dockIcon = document.createElement('div');
-            dockIcon.className = 'dock-icon';
-            dockIcon.style.setProperty('--index', index + apps.length);
-            dockIcon.innerHTML = `
-                <div class="app-icon-img ${app.class}">
-                    ${app.icon}
-                </div>
-            `;
-            dock.appendChild(dockIcon);
-            
-            // Add click handler for app launching
-            dockIcon.addEventListener('click', () => launchApp(app.name));
-        });
-
-        // Clock update
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true
-            });
-            document.getElementById('clock').textContent = timeString;
-            
-            const dateString = now.toLocaleDateString('en-US', {
-                weekday: 'uppercase',
-                day: 'numeric'
-            });
-            document.getElementById('current-date').textContent = dateString;
-        }
-        
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // Enhanced touch feedback
-        document.querySelectorAll('.app-icon, .dock-icon').forEach(icon => {
-            icon.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                this.style.transform = 'scale(0.8)';
-                this.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
-
-            icon.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                this.style.transform = 'scale(1)';
-            });
-        });
-    </script>
+    <script src="js/apps.js"></script>
 </body>
 </html> 
